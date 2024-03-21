@@ -1,25 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { useContext, useState } from 'react';
+import { myContext } from './context';
+import DisplayForm from './DisplayForm';
+import Panel from './Panel';
+import DisplayButton from './DisplayButton';
 
 function App() {
+  const [value, setValue] = useState('light');
+  const context = useContext(myContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <myContext.Provider value={{ value, setValue }}>
+      <div className="App">
+        <DisplayForm>
+          <div>
+            theme mode:
+            <input
+              type="checkbox"
+              checked={value === 'light'}
+              onChange={(e) => {
+                setValue(e.target.checked ? 'light' : 'dark');
+              }}
+            />
+          </div>
+          <Panel />
+          <DisplayButton />
+        </DisplayForm>
+      </div>
+    </myContext.Provider>
   );
 }
 
